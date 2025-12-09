@@ -4,6 +4,11 @@ import requests
 import os 
 import pandas as pd
 from dotenv import load_dotenv 
+from loguru import logger
+
+# configuration du log
+logger.remove()
+logger.add("frontend/logs/streamlit.log")
 
 load_dotenv()
 
@@ -24,24 +29,28 @@ if mode == "Aléatoire":
     if st.button("obtenir une citation aléatoire:"):
         try : 
             response = requests.get(API_URL)
-
+            logger.info(f"Requete GET sur la route '/read/random/'")
             if response.status_code == 200:
                 result = response.json()
 
                 if result:
                     st.success(f"Citation avec ID {result.get('id', 'N/A')}")
+                    logger.info(f"Citation avec ID {result.get('id', 'N/A')}")
                     st.info(result.get('text', 'text non trouvé'))
                     st.balloons()
                 else:
                     st.warning("Aucune citation disponible dans la DB")
-            else:
-                st.error(f"Erreur de l'API avec le code {response.status_code}")
+            else : 
+                st.error(f"L'API a répondu avec une erreur : {response.status_code}")
+                logger.error(f"L'API a répondu avec une erreur : {response.status_code}")
                 st.write(response)
 
 
-        except requests.exceptions.ConnectionError:
+        except requests.exceptions.ConnectionError : 
             st.error(f"ERREUR : Impossible de se connecter à l'API à {API_URL}")
-            st.warning("Veuillez vous assurer que le serveur Uvicorn est bien lancé en arrière-plan.")
+            logger.error(f"ERREUR : Impossible de se connecter à l'API à {API_URL}")
+            st.warning("Veuillez vous assurer que le serveur est bien lancé en arrière plans")
+            logger.error("Veuillez vous assurer que le serveur est bien lancé en arrière plans")
 
 else:
     # afficher une citation par ID
@@ -59,6 +68,7 @@ else:
         # appel la route /read/id
         try : 
             response = requests.get( API_URL + str(quote_id) )
+            logger.info(f"Requete GET sur la route '/read/{quote_id}'")
         # le reste est pareil
             if response.status_code == 200:
                 result = response.json()
@@ -66,16 +76,16 @@ else:
                 if result:
                     st.success(f"Citation avec ID {quote_id}")
                     st.info(result.get('text', 'text non trouvé'))
+                    logger.info(f"Citation avec ID {quote_id} : {result.get('text', 'text non trouvé')}")
                     st.balloons()
                 else:
                     st.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
-
-            elif response.status_code == 422:
-                result = response.json()
-                st.warning(f"Erreur 422 : {result}")
+                    logger.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
+                    
             
             else:
                 st.error(f"Erreur de l'API avec le code {response.status_code}")
+                logger.error(f"L'API a répondu avec une erreur : {response.status_code}")
 
 
 

@@ -4,6 +4,11 @@ import requests
 import os 
 import pandas as pd
 from dotenv import load_dotenv 
+from loguru import logger
+
+# configuration du log
+logger.remove()
+logger.add("frontend/logs/streamlit.log")
 
 load_dotenv()
 
@@ -17,7 +22,7 @@ if st.button("Charger les données"):
 
     try : 
         response = requests.get(API_URL)
-
+        logger.info(f"Requete GET sur la route '/read/'")
         if response.status_code == 200:
             result = response.json()
 
@@ -25,12 +30,16 @@ if st.button("Charger les données"):
             st.dataframe(df, width="stretch")
 
             st.success("Lecture de toutes les citations")
+            logger.info("Lecture de toutes les citations")
             st.balloons()
         else:
             st.error(f"Erreur de l'API avec le code {response.status_code}")
+            logger.error(f"L'API a répondu avec une erreur : {response.status_code}")
             st.write(response)
 
 
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.ConnectionError : 
         st.error(f"ERREUR : Impossible de se connecter à l'API à {API_URL}")
-        st.warning("Veuillez vous assurer que le serveur Uvicorn est bien lancé en arrière-plan.")
+        logger.error(f"ERREUR : Impossible de se connecter à l'API à {API_URL}")
+        st.warning("Veuillez vous assurer que le serveur est bien lancé en arrière plans")
+        logger.error("Veuillez vous assurer que le serveur est bien lancé en arrière plans")

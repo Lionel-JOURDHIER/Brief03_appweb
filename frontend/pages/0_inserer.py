@@ -4,6 +4,11 @@ import streamlit as st
 import requests
 import os
 from dotenv import load_dotenv
+from loguru import logger
+
+# configuration du log
+logger.remove()
+logger.add("frontend/logs/streamlit.log")
 
 load_dotenv()
 API_PORT = int(os.getenv('FASTAPI_PORT'))
@@ -22,19 +27,25 @@ with st.form("insert form"):
         st.info("envoi à l'API")
     
         try:
-            # 1. --- Requetes GET  vers route principale ---
+            # 1. --- Requetes POST sur la route '/insert/' ---
+            logger.info(f"Requete POST sur la route '/insert/'")
             reponse = requests.post(API_URL, json=data)
+            
             if reponse.status_code == 200:
                 # 2. --- Si il y a un resultat l'afficher ---
                 result = reponse.json()
                 st.success(f"Citation ajoutée ! ID: {result['id']} ")
+                logger.info(f"Citation ajoutée ! ID: {result['id']} ")
                 st.json(result)
                 st.balloons()
             else : 
                 st.error(f"L'API a répondu avec une erreur : {reponse.status_code}")
+                logger.error(f"L'API a répondu avec une erreur : {reponse.status_code}")
 
         except requests.exceptions.ConnectionError : 
             st.error(f"ERREUR : Impossible de se connecter à l'API à {API_URL}")
+            logger.error(f"ERREUR : Impossible de se connecter à l'API à {API_URL}")
             st.warning("Veuillez vous assurer que le serveur est bien lancé en arrière plans")
+            logger.error("Veuillez vous assurer que le serveur est bien lancé en arrière plans")
 
 
