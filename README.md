@@ -56,13 +56,14 @@ Columns :
 - `id`
 - `text`
 
-#### Commandes pour lancer le serveur uvicorn
+#### Comandes pour lancer l'API de la database : 
+`python -m backend.main`
 
-`uvicorn chemin.nom:app --reload --log-level debug`
+#### Comandes pour lancer l'API de l'IA' : 
+`python -m backend.API_IA.main`
+***à changer***
 
-#### Comandes pour le terminal : 
-pour power shell : 
-Invoke-WebRequest -Methods GET "http://127.0.0.1:8000/"
+#### Comandes pour lancer le front sur Streamlit' : 
+`streamlit run frontend/app.py`
 
-pour linux 
-curl -X GET "http://127.0.0.1:8000/"
+

@@ -79,8 +79,7 @@ if __name__ == "__main__" :
 
     # 2. On lance uvicorn
     uvicorn.run(
-        "main:app_ia",
-        reload = True,
+        "backend.API_IA.main:app_ia",
         port = port,
         host = url,
         log_level="debug"

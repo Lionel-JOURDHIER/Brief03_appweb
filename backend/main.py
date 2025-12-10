@@ -148,7 +148,6 @@ if __name__ == "__main__" :
     # 2. On lance uvicorn
     uvicorn.run(
         "backend.main:app",
-        reload = True,
         port = port,
         host = url,
         log_level="debug"
