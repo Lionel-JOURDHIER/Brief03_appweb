@@ -24,7 +24,7 @@ st.subheader("Entrer un texte pour vérifier son sentiment")
 text_front = st.text
 
 with st.form("insert form"):
-    new_sentiment_text = st.text_input("Veuillez inserer le texte pour verifier les entiments :")
+    new_sentiment_text = st.text_input("Veuillez inserer le texte pour verifier les sentiments :")
     submitted = st.form_submit_button("Verifier les sentiments")
     if submitted : 
         data = {'text': new_sentiment_text}
@@ -42,6 +42,9 @@ with st.form("insert form"):
                 st.success(f"Voici  les sentiments trouvés : ")
                 st.json(result)
                 logger.info(f"Reponse des sentiments {result}")
+            elif reponse.status_code == 422:
+                st.warning(f"Veuillez rentrer un texte dans le champ ")
+                logger.warning("Field input_text : 'Veuillez inserer le texte pour verifier les sentiments :' submitted without value")
             else : 
                 st.error(f"L'API a répondu avec une erreur : {reponse.status_code}")
                 logger.error(f"L'API a répondu avec une erreur : {reponse.status_code}")

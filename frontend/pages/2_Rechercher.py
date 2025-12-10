@@ -94,9 +94,10 @@ else:
                     st.json(result_sentiment)
                     logger.info(f"Reponse des sentiments {result_sentiment}")
                     st.balloons()
-                else:
-                    st.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
-                    logger.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
+
+            elif response.status_code == 404:
+                st.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
+                logger.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
                     
             
             else:

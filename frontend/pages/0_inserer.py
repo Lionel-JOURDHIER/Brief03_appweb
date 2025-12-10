@@ -46,6 +46,9 @@ with st.form("insert form"):
                 st.json(result_sentiment)
                 logger.info(f"Reponse des sentiments {result_sentiment}")
                 st.balloons()
+            elif reponse.status_code == 422:
+                st.warning(f"Veuillez rentrer un texte dans le champ ")
+                logger.warning("Field input_text : 'Texte de la citation :' submitted without value")
             else : 
                 st.error(f"L'API a répondu avec une erreur : {reponse.status_code}")
                 logger.error(f"L'API a répondu avec une erreur : {reponse.status_code}")
