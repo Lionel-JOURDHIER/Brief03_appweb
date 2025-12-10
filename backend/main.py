@@ -6,9 +6,10 @@ import random
 from pydantic import BaseModel, StringConstraints, Field
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
-from modules.db_tools import write_db, read_db, initialise_db
 from typing import List, Dict, Annotated
 from loguru import logger
+
+from backend.modules.db_tools import write_db, read_db, initialise_db
 
 # configuration du log
 logger.remove()
@@ -146,7 +147,7 @@ if __name__ == "__main__" :
 
     # 2. On lance uvicorn
     uvicorn.run(
-        "main:app",
+        "backend.main:app",
         reload = True,
         port = port,
         host = url,

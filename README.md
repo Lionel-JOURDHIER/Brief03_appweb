@@ -13,20 +13,41 @@ Un mini programme complet
 ```
 mon_projet/
 ├── backend/                  
+│   ├── __init__.py
 │   ├── main.py
 │   ├── modules/
+│   │   ├── __init__.py
+│   │   ├── db_tools.py
 │   │   └── df_tools.py
+│   ├── API_IA/
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   └── logs/
+│   │       └── database_api.log
+│   ├── logs/
+│   │   └── database_api.log
 │   └── data/
+│       ├── quotes_db.db
 │       └── quotes_db.csv
 ├── frontend/                 
 │   ├── app.py
+│   ├── logs/
+│   │   └── streamlit.log
 │   └── pages/
-│       ├──
-│       ├──
-│       └──
+│       ├── 0_inserer.py
+│       ├── 1_read.py
+│       ├── 2_Rechercher.py
+│       └── sentiment_streamlit.py
+├── tests
+│   ├── test_initiation.py
+│   ├── test_backend_api.py
+│   ├── test_backend_orm.py
+│   └── logs/
+│       └── tests.log
 ├── requirements.txt
 ├── README.md
-├── .venv
+├── .venv/
+├── .env
 └── .gitignore
 ```
 
