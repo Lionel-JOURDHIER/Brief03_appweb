@@ -86,9 +86,13 @@ def read_db():
         {"id" : p.id , "text" : p.text}
         for p in session.query(Citations).all()
     ]
-    df = pd.DataFrame(db)
-    df = df.set_index('id')
-    df = check_df(df)
+    if db == []:
+        df = pd.DataFrame(columns=['id', 'text'])
+        df = df.set_index('id')
+    else :         
+        df = pd.DataFrame(db)
+        df = df.set_index('id')
+        df = check_df(df)
     return df
 
 def initialise_db():
