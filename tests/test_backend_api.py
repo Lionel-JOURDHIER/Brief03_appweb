@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from backend.main import app
-from backend.API_IA.main import app_ia
+from API_IA.main import app_ia
 from loguru import logger
 
 # configuration du log
