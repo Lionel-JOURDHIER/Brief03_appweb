@@ -58,10 +58,11 @@ Columns :
 
 #### Comandes pour lancer l'API de la database : 
 `python -m backend.main`
+*old `python backend/main.py`*
 
 #### Comandes pour lancer l'API de l'IA' : 
 `python -m backend.API_IA.main`
-***à changer***
+*old `python backend/API_IA/main.py`*
 
 #### Comandes pour lancer le front sur Streamlit' : 
 `streamlit run frontend/app.py`

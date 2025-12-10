@@ -1,5 +1,5 @@
-from loguru import logger
 from pytest import approx
+from loguru import logger
 
 # configuration du log
 logger.remove()
