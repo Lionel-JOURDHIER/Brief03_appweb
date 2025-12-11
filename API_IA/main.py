@@ -11,7 +11,7 @@ from loguru import logger
 
 # configuration du log
 logger.remove()
-logger.add("backend/API_IA/logs/sentiment_api.log")
+logger.add("API_IA/logs/sentiment_api.log")
 
 load_dotenv()
 

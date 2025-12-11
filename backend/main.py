@@ -3,10 +3,10 @@ import os
 import uvicorn
 import pandas as pd
 import random
-from pydantic import BaseModel, StringConstraints, Field
+from pydantic import BaseModel, Field
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
-from typing import List, Dict, Annotated
+from typing import List
 from loguru import logger
 
 #! from modules.db_tools import write_db, read_db, initialise_db

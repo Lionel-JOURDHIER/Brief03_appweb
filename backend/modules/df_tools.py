@@ -2,6 +2,9 @@ import pandas as pd
 import os
 from loguru import logger
 
+# configuration du log
+logger.remove()
+logger.add("backend/logs/database_api.log")
 
 CSV_FILE_PATH = os.path.join("backend", "data", "quotes_db.csv")
 
@@ -19,6 +22,7 @@ def write_db (df : pd.DataFrame):
         index=True,
         index_label= 'id',
         )
+    logger.info(f"Ecriture de la base de données au format csv : {CSV_FILE_PATH}")
 
 def read_db():
     """
@@ -31,21 +35,10 @@ def read_db():
         filepath_or_buffer=CSV_FILE_PATH,
         index_col= 'id',
         )
+    logger.info(f"Lecture de la base de données au format csv : {CSV_FILE_PATH}")
+    logger.info(f"Création du DataFrame")
     df = check_df(df)
     return df
-
-# def read_id():
-#     """
-#     Read a csv file from the path CSV_FILE_PATH
-
-#     :returns: DataFrame with only the ids in the db from the file
-#     :type df: pd.DataFrame
-#     """
-#     df = pd.read_csv(
-#         filepath_or_buffer=CSV_FILE_PATH,
-#         index_col= 'id',
-#         )
-#     return df['id']
 
 def initialise_db():
     """

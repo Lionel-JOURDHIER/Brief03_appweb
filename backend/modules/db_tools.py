@@ -7,6 +7,10 @@ from loguru import logger
 
 Base = declarative_base()
 
+# configuration du log
+logger.remove()
+logger.add("backend/logs/database_api.log")
+
 class Citations(Base):
     __tablename__ = 'citations'
     # clé primaire
@@ -44,6 +48,7 @@ def existing_citation():
                 p.text : p.id 
                 for p in session.query(Citations).all()
             }
+        logger.info(f"Création du dict des Citations existante dans la base de données")
         return existing_citations
     finally : 
         session.close()
@@ -57,8 +62,10 @@ def write_db (df : pd.DataFrame):
 
     :returns: None
     """
+    logger.info(f"Création de la session d'écriture")
     session = create_session()
     citations_to_add = []
+    logger.info(f"Verification des éléments déjà présent dans la base de donnée")
     existing_citations = existing_citation()
     for _, row in df.iterrows():
         text = str(row['text'])
@@ -67,10 +74,11 @@ def write_db (df : pd.DataFrame):
         else : 
             citation = Citations(text=text)
             citations_to_add.append(citation)
-
+    
     session.add_all(citations_to_add)
-
+    logger.info(f"Ecriture des Citations dans la base de donnée")
     session.commit()
+    logger.info(f"Fermeture de la session d'écriture'")
     session.close()
 
 
@@ -81,18 +89,25 @@ def read_db():
     :returns: DataFrame with data you read from the file
     :type df: pd.DataFrame
     """
+    logger.info(f"Création de la session de lecture")
     session = create_session()
+    logger.info(f"Lecture de la base de donnée")
     db = [
         {"id" : p.id , "text" : p.text}
         for p in session.query(Citations).all()
     ]
+    logger.info(f"Lecture de la base de donnée")
     if db == []:
+        logger.info(f"La base de donnée est vide, envoie d'un DataFrame vide")
         df = pd.DataFrame(columns=['id', 'text'])
         df = df.set_index('id')
     else :         
+        logger.info(f"Création du DataFrame")
         df = pd.DataFrame(db)
         df = df.set_index('id')
         df = check_df(df)
+    logger.info(f"Fermeture de la session de lecture")
+    session.close()
     return df
 
 def initialise_db():
